@@ -1,0 +1,7 @@
+EducationJobPostings.db
+logs/
+extracts/
+__pycache__/
+credentials.txt
+sender_email.txt
+receiver_email.txt
