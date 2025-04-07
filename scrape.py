@@ -101,7 +101,7 @@ def scrape_academic_jobs_online(db_file, default_ajo_cutoff):
                 
                 # Before we insert, check for dupes based on url
                 if link_url in urls_list:
-                    return
+                    continue
                 
                 if len(output) == 4:
                     output[2] = posted_date.strftime("%Y%m%d")
@@ -251,7 +251,7 @@ def scrape_chronicle_higher_education(db_file, num_chronicle_pages):
             
             # Before we insert, check for dupes based on url
             if listing_url in urls_list:
-                return
+                continue
             try:
                 cursor.execute(f"INSERT INTO {table} VALUES(?,?,?,?,?,?)", (output[0],output[1],output[2],output[3],output[4],output[5]) )
                 connection.commit()
@@ -367,7 +367,7 @@ def scrape_naaee(db_file):
             # Check for dupes 
             # Before we insert, check for dupes based on url
             if link in urls_list:
-                return
+                continue
             try:
                 cursor.execute(f"INSERT INTO {table} VALUES(?,?,?,?,?,?,?,?)", (output[0],output[1],output[2],output[3],output[4],output[5],output[6],output[7]) )
                 connection.commit()
