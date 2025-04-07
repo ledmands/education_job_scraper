@@ -143,7 +143,6 @@ def scrape_academic_jobs_online(db_file, default_ajo_cutoff):
         
         if is_done == True:
             break
-
     
     connection.close()
     return 0
@@ -315,7 +314,7 @@ def scrape_naaee(db_file):
         if response.status_code != 200:
             with open(ERROR_LOG, "a", encoding="utf-8") as file:
                 file.write(f"----- ERROR IN {__file__}.{__name__} -----\n")
-                file.write(f"Unable to reach website at {url}")
+                file.write(f"Unable to reach website at {url}\n")
                 file.write(f"response.status_code: {response.status_code}\n")
                 file.write(f"Error occurred at: {datetime.now()}\n\n")
             break
@@ -379,7 +378,6 @@ def scrape_naaee(db_file):
                         file.write(f"output[{i}]: {output[i]}\n")
                     file.write("Nothing committed to database.\n")
                     file.write(f"Error occurred at: {datetime.now()}\n\n")
-        
     
     connection.close()
     

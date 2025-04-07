@@ -1,11 +1,11 @@
-# This should have functions to pull data from each table and write to files
 import sqlite3, os
 from datetime import datetime
 
+DIRECTORY = os.path.abspath(os.path.dirname(__file__))
 
 def extract_academic_jobs_online(db_file, cutoff_date, date_script_ran):
-    directory = os.path.abspath(os.path.dirname(__file__))
-    filename = os.path.join(directory, "extracts/ajo_postings.txt")
+
+    filename = os.path.join(DIRECTORY, "extracts/ajo_postings.txt")
     formatted_cutoff = datetime.strftime(cutoff_date, "%Y%m%d")
 
     connection = sqlite3.connect(db_file)
@@ -38,8 +38,7 @@ def extract_academic_jobs_online(db_file, cutoff_date, date_script_ran):
 
 def extract_chronicle_higher_education(db_file, cutoff_date, date_script_ran):
     
-    directory = os.path.abspath(os.path.dirname(__file__))
-    filename = os.path.join(directory, "extracts/chronicle_postings.txt")
+    filename = os.path.join(DIRECTORY, "extracts/chronicle_postings.txt")
     formatted_cutoff = datetime.strftime(cutoff_date, "%Y%m%d")
 
     connection = sqlite3.connect(db_file)
@@ -66,8 +65,7 @@ def extract_chronicle_higher_education(db_file, cutoff_date, date_script_ran):
 
 def extract_naaee(db_file, cutoff_date, date_script_ran):
     
-    directory = os.path.abspath(os.path.dirname(__file__))
-    filename = os.path.join(directory, "extracts/naaee_postings.txt")
+    filename = os.path.join(DIRECTORY, "extracts/naaee_postings.txt")
     formatted_cutoff = datetime.strftime(cutoff_date, "%Y%m%d")
 
     connection = sqlite3.connect(db_file)

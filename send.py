@@ -1,15 +1,14 @@
 # Send all the extracted files to the specified email
-import smtplib, ssl, datetime, os
+import smtplib, ssl, os
 
-from email import encoders
-from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+DIRECTORY = os.path.abspath(os.path.dirname(__file__))
+
 def send_ajo_extract(sender_email, password, receiver_email, subject_prefix, host, port):
 
-    directory = os.path.abspath(os.path.dirname(__file__))
-    filename = os.path.join(directory, "extracts/ajo_postings.txt")   
+    filename = os.path.join(DIRECTORY, "extracts/ajo_postings.txt")   
      
     message = MIMEMultipart()
     message["From"] = sender_email
@@ -29,8 +28,7 @@ def send_ajo_extract(sender_email, password, receiver_email, subject_prefix, hos
 
 def send_chronicle_extract(sender_email, password, receiver_email, subject_prefix, host, port):
     
-    directory = os.path.abspath(os.path.dirname(__file__))
-    filename = os.path.join(directory, "extracts/chronicle_postings.txt")   
+    filename = os.path.join(DIRECTORY, "extracts/chronicle_postings.txt")   
      
     message = MIMEMultipart()
     message["From"] = sender_email
@@ -50,8 +48,7 @@ def send_chronicle_extract(sender_email, password, receiver_email, subject_prefi
 
 def send_naaee_extract(sender_email, password, receiver_email, subject_prefix, host, port):
     
-    directory = os.path.abspath(os.path.dirname(__file__))
-    filename = os.path.join(directory, "extracts/naaee_postings.txt")   
+    filename = os.path.join(DIRECTORY, "extracts/naaee_postings.txt")   
      
     message = MIMEMultipart()
     message["From"] = sender_email
@@ -71,9 +68,13 @@ def send_naaee_extract(sender_email, password, receiver_email, subject_prefix, h
 
 def send_extract(message, sender_email, password, receiver_email, host, port):
     
-    salutation = "<html><body><b><i>--Courtesy of your friendly neighborhood Spider-Dev</i></b></body></html>"
+    filename = os.path.join(DIRECTORY, "signature.txt")   
+
+    signature = ""
+    with open(filename, "r") as file:
+        signature = file.read()
     
-    message.attach(MIMEText(salutation, "html"))
+    message.attach(MIMEText(signature, "html"))
 
     text = message.as_string()
     # Create a secure SSL context

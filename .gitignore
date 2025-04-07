@@ -5,3 +5,4 @@ __pycache__/
 credentials.txt
 sender_email.txt
 receiver_email.txt
+signature.txt
