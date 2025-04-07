@@ -3,7 +3,7 @@ from datetime import datetime
 import requests, sqlite3, os
 
 dir_path = os.path.abspath(os.path.dirname(__file__))
-ERROR_LOG = os.path.join(dir_path, "/logs/error_log.txt")
+ERROR_LOG = os.path.join(dir_path, "logs/error_log.txt")
 
 def scrape_academic_jobs_online(db_file, default_ajo_cutoff):
     table = "AcademicJobsOnlineJobs"
