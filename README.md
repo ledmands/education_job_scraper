@@ -10,11 +10,12 @@
 ### The SQLite database and tables should be initialized prior to running the scripts. 
 
 From the project directory, you can create the SQLite database EducationJobPostings.db by running the following Python code:
-<code>import sqlite3
-connection = sqlite3.connect("EducationJobPostings.db")
-cursor = connection.cursor()
-cursor.execute(CREATE TABLE AcademicJobsOnlineJobs(Institution, Department, JobTitle, PostedDate, Url))
-cursor.execute(CREATE TABLE ChronicleHigherEducationJobs(JobTitle, Organization, Location, Compensation, PostedDate, Url))
-cursor.execute(CREATE TABLE NaaeeJobs(JobTitle, Organization, Location, Status, Category, Type, PostedDate, Url))
-connection.commit()
-connection.close()</code>
+
+<code>>>> import sqlite3</code><br>
+<code>>>> connection = sqlite3.connect("EducationJobPostings.db")</code><br>
+<code>>>> cursor = connection.cursor()</code><br>
+<code>>>> cursor.execute(CREATE TABLE AcademicJobsOnlineJobs(Institution, Department, JobTitle, PostedDate, Url))</code><br>
+<code>>>> cursor.execute(CREATE TABLE ChronicleHigherEducationJobs(JobTitle, Organization, Location, Compensation, PostedDate, Url))</code><br>
+<code>>>> cursor.execute(CREATE TABLE NaaeeJobs(JobTitle, Organization, Location, Status, Category, Type, PostedDate, Url))</code><br>
+<code>>>> connection.commit()</code><br>
+<code>>>> connection.close()</code><br>
