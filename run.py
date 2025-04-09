@@ -1,16 +1,19 @@
 # Todo: Add error handling and link to main website url in email body
 
-import scrape, extract, send, os
+import extract, send, os
+from scrape import Scrape
 from datetime import datetime, timedelta
 
 script_dir = os.path.abspath(os.path.dirname(__file__))
 db_file = os.path.join(script_dir, "EducationJobPostings.db")
 
-num_chronicle_pages = 10
-default_ajo_cutoff = "20250301"
-date_script_ran = datetime.now().strftime("%B %d, %Y")
+# Class variables here for scrape
+
+Scrape.num_chronicle_pages = 10
+Scrape.default_ajo_cutoff = "20250301"
+Scrape.date_script_ran = datetime.now().strftime("%B %d, %Y")
 # Extract_cutoff_date should be last 7 days, i.e. date script ran - 7
-extract_cutoff_date = datetime.strptime(date_script_ran, "%B %d, %Y") - timedelta(days=7)
+Scrape.extract_cutoff_date = datetime.strptime(Scrape.date_script_ran, "%B %d, %Y") - timedelta(days=7)
 
 receiver_email = ""
 sender_email = ""
@@ -27,11 +30,11 @@ host = "smtp.gmail.com"
 
 def main():
     
-    scrape.scrape_all_sites(db_file, num_chronicle_pages, default_ajo_cutoff)
+    Scrape.scrape_all_sites(db_file)
     print("scrape.py done")
-    extract.extract_all_tables(db_file, extract_cutoff_date, date_script_ran)
+    # extract.extract_all_tables(db_file, extract_cutoff_date, date_script_ran)
     print("extract.py done")
-    send.send_all_extracts(sender_email, password, receiver_email, subject_prefix, host, port)
+    # send.send_all_extracts(sender_email, password, receiver_email, subject_prefix, host, port)
     print("send.py done")
 
     return 0

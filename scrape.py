@@ -5,6 +5,22 @@ import requests, sqlite3, os
 dir_path = os.path.abspath(os.path.dirname(__file__))
 ERROR_LOG = os.path.join(dir_path, "logs/error_log.txt")
 
+class Scrape:
+    
+    num_chronicle_pages = None
+    default_ajo_cutoff = None
+    date_script_ran = None
+    extract_cutoff_date = None
+
+    def scrape_all_sites(db_file):
+        
+        scrape_academic_jobs_online(db_file, Scrape.default_ajo_cutoff)
+        scrape_chronicle_higher_education(db_file, Scrape.num_chronicle_pages)
+        scrape_naaee(db_file)
+        
+        return 0
+
+
 def scrape_academic_jobs_online(db_file, default_ajo_cutoff):
     table = "AcademicJobsOnlineJobs"
     url = "https://academicjobsonline.org/ajo?joblist-0-0-0-0---0-p--"
@@ -383,11 +399,6 @@ def scrape_naaee(db_file):
     
     return 0
 
-def scrape_all_sites(db_file, num_chronicle_pages, default_ajo_cutoff):
-    scrape_academic_jobs_online(db_file, default_ajo_cutoff)
-    scrape_chronicle_higher_education(db_file, num_chronicle_pages)
-    scrape_naaee(db_file)
-    return 0
 
 if __name__ == "main":
-    scrape_all_sites()
+    Scrape.scrape_all_sites()
