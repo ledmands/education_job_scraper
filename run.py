@@ -1,19 +1,22 @@
 # Todo: Add error handling and link to main website url in email body
 
-import extract, send, os
+import os
 from scrape import Scrape
 from send import Send
+from extract import Extract
 from datetime import datetime, timedelta
 
 script_dir = os.path.abspath(os.path.dirname(__file__))
 db_file = os.path.join(script_dir, "EducationJobPostings.db")
+formatted_now = datetime.now().strftime("%B %d, %Y")
 
 Scrape.num_chronicle_pages = 10
 Scrape.default_ajo_cutoff = "20250301"
-Scrape.date_script_ran = datetime.now().strftime("%B %d, %Y")
+Scrape.date_script_ran = formatted_now
 
 # Extract_cutoff_date should be last 7 days, i.e. date script ran - 7
-Scrape.extract_cutoff_date = datetime.strptime(Scrape.date_script_ran, "%B %d, %Y") - timedelta(days=7)
+Extract.cutoff_date = datetime.strptime(formatted_now, "%B %d, %Y") - timedelta(days=7)
+Extract.date_script_ran = formatted_now
 
 with open(f"{script_dir}/credentials.txt", "r") as file:
     Send.password = file.read()
@@ -26,7 +29,7 @@ def main():
     
     Scrape.scrape_all_sites(db_file)
     print("scrape.py done")
-    extract.extract_all_tables(db_file, extract_cutoff_date, date_script_ran)
+    Extract.extract_all_tables(db_file)
     print("extract.py done")
     Send.send_all_extracts()
     print("send.py done")

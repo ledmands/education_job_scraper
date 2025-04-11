@@ -10,7 +10,6 @@ class Scrape:
     num_chronicle_pages = None
     default_ajo_cutoff = None
     date_script_ran = None
-    extract_cutoff_date = None
 
     def scrape_all_sites(db_file):
         

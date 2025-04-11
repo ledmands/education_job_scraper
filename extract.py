@@ -3,20 +3,33 @@ from datetime import datetime
 
 DIRECTORY = os.path.abspath(os.path.dirname(__file__))
 
-def extract_academic_jobs_online(db_file, cutoff_date, date_script_ran):
+class Extract:
+    
+    cutoff_date = None
+    date_script_ran = None
+
+    
+    def extract_all_tables(db_file):
+        extract_naaee(db_file)
+        extract_chronicle_higher_education(db_file)
+        extract_academic_jobs_online(db_file)
+        return 0
+    
+
+def extract_academic_jobs_online(db_file):
 
     filename = os.path.join(DIRECTORY, "extracts/ajo_postings.txt")
-    formatted_cutoff = datetime.strftime(cutoff_date, "%Y%m%d")
 
     connection = sqlite3.connect(db_file)
     cursor = connection.cursor()
+    formatted_cutoff = datetime.strftime(Extract.cutoff_date, "%Y%m%d")
 
     records = cursor.execute(f"select * from AcademicJobsOnlineJobs where PostedDate > {formatted_cutoff} order by PostedDate desc").fetchall()
 
     with open(filename, "w", encoding="utf-8") as file:
         file.write("Academic Jobs Online Postings\n")
-        file.write(f"Postings as of {date_script_ran}\n")
-        file.write(f"Postings listed since: {cutoff_date.strftime('%B %d, %Y')}\n")
+        file.write(f"Postings as of {Extract.date_script_ran}\n")
+        file.write(f"Postings listed since: {Extract.cutoff_date.strftime('%B %d, %Y')}\n")
         file.write("------------\n\n")
 
     for i in records:
@@ -36,20 +49,20 @@ def extract_academic_jobs_online(db_file, cutoff_date, date_script_ran):
     
     return 0
 
-def extract_chronicle_higher_education(db_file, cutoff_date, date_script_ran):
+def extract_chronicle_higher_education(db_file):
     
     filename = os.path.join(DIRECTORY, "extracts/chronicle_postings.txt")
-    formatted_cutoff = datetime.strftime(cutoff_date, "%Y%m%d")
 
     connection = sqlite3.connect(db_file)
     cursor = connection.cursor()
+    formatted_cutoff = datetime.strftime(Extract.cutoff_date, "%Y%m%d")
 
     records = cursor.execute(f"select * from ChronicleHigherEducationJobs where PostedDate > {formatted_cutoff} order by PostedDate desc").fetchall()
 
     with open(filename, "w", encoding="utf-8") as file:
         file.write("Chronicle Higher Education Job Postings\n")
-        file.write(f"Postings as of {date_script_ran}\n")
-        file.write(f"Postings listed since: {cutoff_date.strftime('%B %d, %Y')}\n")
+        file.write(f"Postings as of {Extract.date_script_ran}\n")
+        file.write(f"Postings listed since: {Extract.cutoff_date.strftime('%B %d, %Y')}\n")
         file.write("------------\n\n")
 
     for i in records:
@@ -63,20 +76,21 @@ def extract_chronicle_higher_education(db_file, cutoff_date, date_script_ran):
             
     return 0
 
-def extract_naaee(db_file, cutoff_date, date_script_ran):
+def extract_naaee(db_file):
     
     filename = os.path.join(DIRECTORY, "extracts/naaee_postings.txt")
-    formatted_cutoff = datetime.strftime(cutoff_date, "%Y%m%d")
 
     connection = sqlite3.connect(db_file)
     cursor = connection.cursor()
+    formatted_cutoff = datetime.strftime(Extract.cutoff_date, "%Y%m%d")
 
     records = cursor.execute(f"select * from NaaeeJobs where PostedDate > {formatted_cutoff} order by PostedDate desc").fetchall()
+    connection.close()
 
     with open(filename, "w", encoding="utf-8") as file:
         file.write("NAAEE Job Postings\n")
-        file.write(f"Postings as of {date_script_ran}\n")
-        file.write(f"Postings listed since: {cutoff_date.strftime('%B %d, %Y')}\n")
+        file.write(f"Postings as of {Extract.date_script_ran}\n")
+        file.write(f"Postings listed since: {Extract.cutoff_date.strftime('%B %d, %Y')}\n")
         file.write("------------\n\n")
 
     for i in records:
@@ -93,11 +107,6 @@ def extract_naaee(db_file, cutoff_date, date_script_ran):
     
     return 0
 
-def extract_all_tables(db_file, cutoff_date, date_script_ran):
-    extract_naaee(db_file, cutoff_date, date_script_ran)
-    extract_chronicle_higher_education(db_file, cutoff_date, date_script_ran)
-    extract_academic_jobs_online(db_file, cutoff_date, date_script_ran)
-    return 0
 
 if __name__ == "main":
-    extract_all_tables()
+    Extract.extract_all_tables()
