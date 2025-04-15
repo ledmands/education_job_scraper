@@ -106,7 +106,7 @@ def scrape_academic_jobs_online(db_file, default_ajo_cutoff):
                 output.append(posted_date.text)
 
                 link = item.find("a")
-                link_url = "academicjobsonline.org" + link["href"]
+                link_url = "https://academicjobsonline.org" + link["href"]
                 output.append(link_url)
             
                 posted_date = datetime.strptime(posted_date.text[-11:-1], "%Y/%m/%d")
